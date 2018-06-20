@@ -1,9 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatToolbarModule, MatButtonModule, MatTabsModule, MatCardModule, MatInputModule, MatCheckboxModule } from '@angular/material';
-import { MatSelectModule } from '@angular/material/select';
-import {MatTableModule, MatPaginatorModule} from '@angular/material';
+import { MatToolbarModule, MatButtonModule, MatTabsModule, MatCardModule } from '@angular/material';
+import { PaginationModule, TabsModule} from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -12,8 +11,10 @@ import { SprintComponent } from './sprint/sprint.component';
 import { HomeComponent } from './home/home.component';
 import { AuthService } from './auth/auth.service';
 
+
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './/app-routing.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,14 +30,11 @@ import { AppRoutingModule } from './/app-routing.module';
     MatTabsModule,
     MatCardModule,
     ReactiveFormsModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatTableModule,
     FormsModule,
-    MatPaginatorModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    PaginationModule.forRoot(),
+    TabsModule.forRoot()
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

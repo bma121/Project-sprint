@@ -13,7 +13,7 @@ export class AuthService {
     domain: 'malmo.auth0.com',
     responseType: 'token id_token',
     audience: 'https://malmo.auth0.com/userinfo',
-    redirectUri: 'http://localhost:4200/callback',
+    redirectUri: 'http://localhost:4200/sprint',
     scope: 'openid'
   });
 

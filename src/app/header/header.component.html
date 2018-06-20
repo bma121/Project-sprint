@@ -15,18 +15,19 @@
             Login
           </a>
 
-        <button
-          class="btn btn-primary btn-margin"
+        <a _ngcontent-c4
+          class="navbar-brand"
           *ngIf="auth.isAuthenticated()"
+          routerLink="/sprint"
            style="background-color:#3F51B5 ">
             Sprints
-        </button>
+        </a>
 
-        <button
-          class="btn btn-primary btn-margin"
+        <a _ngcontent-c4
+          class="navbar-brand"
           *ngIf="auth.isAuthenticated()"
           (click)="auth.logout()" style="background-color:#3F51B5 ">
             Log Out
-        </button>
+      </a>
 
 </nav>
