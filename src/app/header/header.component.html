@@ -1,0 +1,32 @@
+<script type="text/javascript" src="node_modules/auth0-js/build/auth0.js"></script>
+
+<nav class="navbar  navbar-dark" style="background-color:#3F51B5 ">
+    <img src="../assets/logo.png"  alt="sprint logo"/>
+    <a _ngcontent-c4
+          class="app-name"
+          routerLink="/" >
+          ≡Sprint
+    </a>
+
+        <a _ngcontent-c4
+          class="app-name"
+          *ngIf="!auth.isAuthenticated()"
+          (click)="auth.login()" >
+            Login
+          </a>
+
+        <button
+          class="btn btn-primary btn-margin"
+          *ngIf="auth.isAuthenticated()"
+           style="background-color:#3F51B5 ">
+            Sprints
+        </button>
+
+        <button
+          class="btn btn-primary btn-margin"
+          *ngIf="auth.isAuthenticated()"
+          (click)="auth.logout()" style="background-color:#3F51B5 ">
+            Log Out
+        </button>
+
+</nav>

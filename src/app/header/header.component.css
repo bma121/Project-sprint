@@ -1,0 +1,17 @@
+img{
+  display: flex;
+  width: 115px;
+}
+.app-name[_ngcontent-c4] {
+  font-family: monospace;
+  font-size: 170%;
+  font-style: oblique;
+  font-weight: 500;
+}
+
+a[_ngcontent-c4] {
+  text-decoration: none;
+  color: #fff;
+  padding: 0 .5em;
+  height: 26px;
+}
