@@ -5,44 +5,36 @@
     <tabset #staticTabs>
       <tab heading="Pasts Sprint">
 
-           <div class="form-light">
+           <div class="inputSearch">
               <input type="text" class="form-control" placeholder="Filter by length, status, date or description">
             </div>
 
-          <table class="table table-hover" id="bootstrap-table">
+          <table class="table" >
               <thead>
                 <tr>
-                  <th scope="col">Length</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Start</th>
-                  <th scope="col">Finish</th>
-                  <th scope="col">Description</th>
+                  <th >Length</th>
+                  <th >Status</th>
+                  <th >Date</th>
+                  <th >Start</th>
+                  <th >Finish</th>
+                  <th >Description</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>no data</td>
-                  <td>no data</td>
-                  <td>no data</td>
-                  <td>no data</td>
-                  <td>no data</td>
-                  <td>no data</td>
+
                 </tr>
 
               </tbody>
             </table>
 
-            <div class="pull-left">
-                <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"></pagination>
-            </div>
 
       </tab>
       <tab heading="New Sprint">
           <section class="form-light">
 
               <!--Form without header-->
-              <div class="card">
+              <form action="" (submit)="onAddPost(postForm)" #postForm="ngForm">
 
                   <div class="card-body mx-4">
 
@@ -53,18 +45,16 @@
 
                       <!--Body-->
                       <div class="md-form">
-                          <select class="form-control" id="exampleFormControlSelect1" >
-                              <option>Choose a length*</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
+                          <label class="grey-text">Choose a length*</label>
+                          <select class="form-control" required  name ="length" [(ngModel)] ="selectedValue">
+                              <option *ngFor="let sp of sprints" [value]="sp.value">{{ sp.viewValue }}</option>
                             </select>
-                          <small id="emailHelp" class="form-text text-muted">.</small>
+                          <small id="emailHelp" class="form-text text-muted">✔</small>
                       </div>
 
                       <div class="md-form pb-3">
-                          <input type="text" class="form-control" placeholder="Description">
+                          <label class="grey-text">Description</label>
+                          <input type="text" class="form-control" ngModel #title="ngModel" name="description">
                           <small id="emailHelp" class="form-text text-muted">What will you be doing</small>
                           <div class="form-check my-4">
                             <input class="form-check-input" type="checkbox" id="defaultCheck12">
@@ -77,7 +67,7 @@
 
                           <!--Grid column-->
                           <div class="col-md-3 col-md-6 text-center">
-                              <button type="button" class="btn btn-primary btn-block btn-rounded z-depth-1">Start</button>
+                              <button type="submit" class="btn btn-primary btn-block btn-rounded z-depth-1">Start</button>
                           </div>
                           <!--Grid column-->
 
@@ -89,13 +79,19 @@
 
 
 
-              </div>
+              </form>
               <!--/Form without header-->
 
           </section>
 
-      </tab>
 
+      </tab>
+      <div class="delete-user">
+          <button type="submit" class="button-content">Delete all data</button>
+        </div>
     </tabset>
+
+    <footer _ngcontent-c16><p>Logged in as  {{ username }} </p>
+    </footer>
   </div>
   <!-- Classic tabs -->
