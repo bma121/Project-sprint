@@ -28,6 +28,9 @@
               </tbody>
             </table>
 
+            <div _ngcontent-c13 class="delete-user">
+                <button type="submit" class="button-content">Delete all data</button>
+              </div>
 
       </tab>
       <tab heading="New Sprint">
@@ -54,7 +57,7 @@
 
                       <div class="md-form pb-3">
                           <label class="grey-text">Description</label>
-                          <input type="text" class="form-control" ngModel #title="ngModel" name="description">
+                          <textarea class="form-control" ngModel #title="ngModel" name="description"></textarea>
                           <small id="emailHelp" class="form-text text-muted">What will you be doing</small>
                           <div class="form-check my-4">
                             <input class="form-check-input" type="checkbox" id="defaultCheck12">
@@ -77,8 +80,6 @@
                       <!--Grid row-->
                   </div>
 
-
-
               </form>
               <!--/Form without header-->
 
@@ -86,9 +87,7 @@
 
 
       </tab>
-      <div class="delete-user">
-          <button type="submit" class="button-content">Delete all data</button>
-        </div>
+
     </tabset>
 
     <footer _ngcontent-c16><p>Logged in as  {{ username }} </p>

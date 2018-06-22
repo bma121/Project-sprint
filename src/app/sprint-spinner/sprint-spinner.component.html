@@ -9,25 +9,22 @@
           </div>
           <div class="current-state">{{ currentStateName }}</div>
           <div class="time">{{ time | minuteSeconds }}</div>
-          <button [disabled]="!time" (click)="togglePause()">
+         <!-- <button  (click)="togglePause()">
               <i class="fa" [ngClass]="timerActive ? 'fa-pause' : 'fa-play'"></i>
           </button>
-          <button (click)="setTimer(0)" class="reset-btn">
-              <i class="fa fa-times"></i>
-          </button>
+          <button (click)="setTimer(0)" class="reset-btn" routerLink ='/sprint'>
+              <i class="far fa-pause-circle"></i>
+          </button> -->
       </div>
 
       <div class="controls">
           <ul>
               <li>
-                  <button (click)="setTimer(this.shortBreakTime)">Short Break</button>
+                  <button (click)="togglePause()">Pause/Play</button>
               </li>
               <li>
-                  <button (click)="startFocus()">Focus</button>
-              </li>
-              <li>
-                  <button (click)="setTimer(this.longBreakTime)">Long Break</button>
+                  <button (click)="setTimerToZero(0)" routerLink ='/sprint'>Cancel</button>
               </li>
           </ul>
-      </div>
+
   </div>

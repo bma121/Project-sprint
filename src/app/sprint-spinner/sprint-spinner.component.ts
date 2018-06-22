@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {PushNotificationsModule, PushNotificationsService } from 'ng-push';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 @Component({
   selector: 'app-sprint-spinner',
   templateUrl: './sprint-spinner.component.html',
   styleUrls: ['./sprint-spinner.component.scss']
 })
 export class SprintSpinnerComponent implements OnInit {
- desc: any = '' ;
   @ViewChild('bar') bar: ElementRef;
 
     public time: number;
@@ -24,7 +23,8 @@ export class SprintSpinnerComponent implements OnInit {
     public longBreakTime: number;
     public focusTime: number;
     public audio: HTMLAudioElement;
-
+    length: any = '';
+    desc: any = '' ;
   constructor(private pushNotifications: PushNotificationsService , private routeActive: ActivatedRoute ) {
         this.time = 0;
 
@@ -33,34 +33,27 @@ export class SprintSpinnerComponent implements OnInit {
         this.timerActive = false;
 
         this.currentState = 0;
-        this.currentStateName = 'set timer';
+        this.currentStateName = 'Timer';
 
         this.shortBreakTime = 100;
         this.longBreakTime = 900;
         this.focusTime = 1500;
         this.audio = new Audio();
 
+
   }
 
   ngOnInit() {
 
-    this.routeActive.queryParams.subscribe(function(data) {
-      console.log(data);
-      this.desc = data.description;
-      console.log('!!!!!');
-      console.log(this.desc);
-      console.log(data.length);
-     this.setTimer(data.length);
-      });
-
-      this.desc = this.routeActive.queryParams ;
-      // this.length = this.routeActive.queryParams._value.length;
-
-     // console.log(this.desc);
+       this.routeActive.queryParams.subscribe (params => {
+          this.length = params['length'];
+          this.desc = params['description'];
+        });
 
         this.pushNotifications.requestPermission();
         this.audio.src = '../assets/beep.mp3';
         this.audio.load();
+        this.startFocus(this.length);
   }
 
   notify() {
@@ -90,14 +83,24 @@ public setTimer(time: number, focus: boolean = false) {
   this.startTimer();
 }
 
+public setTimerToZero(time: number, focus: boolean = false) {
+  if (confirm('Stop the sprint?')) {
+    this.currentState = time;
+      this.setTimerSvg(time);
+
+      this.currentStateName = this.changeCurrentState(time);
+
+      this.focus = focus;
+      this.time = time;
+      this.startTimer();
+  }
+}
+
+
 private changeCurrentState(time: number): string {
   switch (time) {
-      case this.shortBreakTime:
-          return 'short break';
-      case this.longBreakTime:
-          return 'long break';
-      case this.focusTime:
-          return 'focus';
+      case this.length:
+          return this.desc;
       default:
           return 'set timer';
   }
@@ -115,10 +118,10 @@ private changeBarStroke(time: number): string {
   return (848.23 * (1 - time / this.currentState)).toString();
 }
 
-public startFocus() {
+public startFocus(length: number) {
   this.focus = true;
   this.count = 0;
-  this.setTimer(this.focusTime, true);
+  this.setTimer(length, true);
 }
 
 public togglePause() {
@@ -151,13 +154,7 @@ public timer() {
       this.timerActive = false;
       if (this.focus && !this.pause) {
           this.count++;
-          if (this.count % 7 === 0) {
-               this.setTimer(this.focusTime, true);
-          } else if (this.count % 2 === 0) {
-            this.setTimer(this.focusTime, true);
-          } else {
-            this.setTimer(this.focusTime, true);
-          }
+
       }
   }
 
