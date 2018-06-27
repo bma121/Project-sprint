@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule, MatButtonModule, MatTabsModule, MatCardModule } from '@angular/material';
 import { PaginationModule, TabsModule} from 'ngx-bootstrap';
 import { PushNotificationsModule } from 'ng-push';
+import { HttpClientModule } from '@angular/common/http';
 
 
 import { AppComponent } from './app.component';
@@ -19,6 +20,7 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './/app-routing.module';
 import { SprintSpinnerComponent } from './sprint-spinner/sprint-spinner.component';
 import { MinuteSecondsPipe } from './minute-seconds.pipe';
+import { SprintService } from './sprint.service';
 
 @NgModule({
   declarations: [
@@ -43,8 +45,9 @@ import { MinuteSecondsPipe } from './minute-seconds.pipe';
     PaginationModule.forRoot(),
     TabsModule.forRoot(),
     PushNotificationsModule,
+    HttpClientModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, SprintService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

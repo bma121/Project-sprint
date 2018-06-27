@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {PushNotificationsModule, PushNotificationsService } from 'ng-push';
-import { ActivatedRoute, Params } from '@angular/router';
+import { PushNotificationsService } from 'ng-push';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SprintService } from '../../app/sprint.service';
+
+
 @Component({
   selector: 'app-sprint-spinner',
   templateUrl: './sprint-spinner.component.html',
@@ -19,13 +22,26 @@ export class SprintSpinnerComponent implements OnInit {
     public currentState: number;
     public currentStateName: string;
 
-    public shortBreakTime: number;
-    public longBreakTime: number;
+    public lengthValue: string;
+    public Value1: number;
+    public Value2: number;
+    public Value3: number;
+    public Value4: number;
+    public Value5: number;
+    public Value6: number;
+
     public focusTime: number;
     public audio: HTMLAudioElement;
-    length: any = '';
+    length: number ;
     desc: any = '' ;
-  constructor(private pushNotifications: PushNotificationsService , private routeActive: ActivatedRoute ) {
+    date: any = '';
+    startHours: any = '';
+    endHours: any = '';
+    stopHours: any = '';
+    month: any = '';
+
+  constructor(private pushNotifications: PushNotificationsService , private routeActive: ActivatedRoute,
+    private service: SprintService, private router: Router) {
         this.time = 0;
 
         this.focus = false;
@@ -34,11 +50,16 @@ export class SprintSpinnerComponent implements OnInit {
 
         this.currentState = 0;
         this.currentStateName = 'Timer';
-
-        this.shortBreakTime = 100;
-        this.longBreakTime = 900;
+        this.lengthValue = '';
         this.focusTime = 1500;
         this.audio = new Audio();
+
+        this.Value1 = 5;
+        this.Value2 = 300;
+        this.Value3 = 600;
+        this.Value4 = 1500;
+        this.Value5 = 2700;
+        this.Value6 = 3600;
 
 
   }
@@ -48,12 +69,20 @@ export class SprintSpinnerComponent implements OnInit {
        this.routeActive.queryParams.subscribe (params => {
           this.length = params['length'];
           this.desc = params['description'];
+
         });
 
         this.pushNotifications.requestPermission();
         this.audio.src = '../assets/beep.mp3';
         this.audio.load();
         this.startFocus(this.length);
+        this.month = new Date().getMonth() + 1;
+        const val = +this.length;
+
+        this.lengthValue = this.lengthViewValue(val);
+
+        this.date = new Date().getFullYear() + '-' + this.month + '-' + new Date().getDate();
+        this.startHours = new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
   }
 
   notify() {
@@ -84,18 +113,36 @@ public setTimer(time: number, focus: boolean = false) {
 }
 
 public setTimerToZero(time: number, focus: boolean = false) {
-  if (confirm('Stop the sprint?')) {
-    this.currentState = time;
+  if (confirm('Stop the sprint?') === true) {
+      this.currentState = time;
       this.setTimerSvg(time);
-
       this.currentStateName = this.changeCurrentState(time);
 
       this.focus = focus;
       this.time = time;
       this.startTimer();
+      this.stopHours = new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
+      this.service.addSprint(this.lengthValue, 'Canceled', this.date, this.startHours, this.stopHours, this.desc );
+      this.router.navigate(['/sprint']);
   }
 }
 
+private lengthViewValue(val: any): string {
+  switch (val) {
+    case this.Value1:
+     return 'Instant(5s)';
+    case this.Value2:
+     return  'Very short(5min)';
+    case this.Value3:
+     return 'Short (10min)';
+    case this.Value4:
+    return 'Pomodoro (25min)';
+    case this.Value5:
+    return 'Long (45min)';
+    case this.Value6:
+    return  'Very long (60min)';
+  }
+}
 
 private changeCurrentState(time: number): string {
   switch (time) {
@@ -117,6 +164,8 @@ private changeBarStroke(time: number): string {
 
   return (848.23 * (1 - time / this.currentState)).toString();
 }
+
+
 
 public startFocus(length: number) {
   this.focus = true;
@@ -142,8 +191,11 @@ public timer() {
           if (this.time > 0) {
               if (this.time - 1 === 0) {
                   this.timerActive = false;
+                  this.endHours = new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
+                  this.service.addSprint(this.lengthValue, 'Completed', this.date, this.startHours, this.endHours, this.desc );
                   this.audio.play();
                   this.notify();
+                  this.router.navigate(['/sprint']);
               }
               this.time -= 1;
               this.setTimerSvg(this.time);

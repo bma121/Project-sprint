@@ -1,24 +1,52 @@
-const express = require('express');
-const path = require('path');
-const app = express();
+const app = require("./server/app");
+const debug = require("debug")("sprint");
+const http = require("http");
 
-//get Post routes
-const posts = require('./server/routes/posts');
+const normalizePort = val => {
+  var port = parseInt(val, 10);
 
-//middleware
-app.use(express.static(path.join(__dirname, 'dist')));
-//app.use('posts')
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
 
-//catch all other routes request and return to index
-app.get('',(req, res)=>{
-  res.sendFile(path.join(__dirname, '/dist/index.html'));
-});
+  if (port >= 0) {
+    // port number
+    return port;
+  }
 
-const port = process.env.PORT || 3000;
+  return false;
+};
 
-app.listen(port, (req, res)=>{
-  console.log(`Server running on port ${port}`);
-});
+const onError = error => {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+  const bind = typeof addr === "string" ? "pipe " + addr : "port " + port;
+  switch (error.code) {
+    case "EACCES":
+      console.error(bind + " requires elevated privileges");
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(bind + " is already in use");
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+};
 
+const onListening = () => {
+  const addr = server.address();
+  const bind = typeof addr === "string" ? "pipe " + addr : "port " + port;
+  debug("Listening on " + bind);
+};
 
+const port = normalizePort(process.env.PORT || "3000");
+app.set("port", port);
 
+const server = http.createServer(app);
+server.on("error", onError);
+server.on("listening", onListening);
+server.listen(port);

@@ -3,6 +3,10 @@ import { TabsetComponent } from 'ngx-bootstrap';
 import { Router ,  NavigationExtras } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
+import { SprintService } from '../../app/sprint.service';
+import { Sprint } from '../../app/sprint.model';
+import { Subscription } from 'rxjs';
+
 
 
 @Component({
@@ -11,11 +15,11 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./sprint.component.css']
 })
 export class SprintComponent implements OnInit {
-  maxSize = 5;
-  bigTotalItems = 175;
-  bigCurrentPage = 1;
   public selectedValue: any = '' ;
+  private subSprint: Subscription;
+  theSprint: Sprint[] = [];
   username = '';
+  responseData: any;
 
   sprints =  [
     {value:  '5',  viewValue:  'Instant(5s)'},
@@ -48,11 +52,23 @@ export class SprintComponent implements OnInit {
       };
      this.router.navigate(['/spinner'] , NavigationExtras);
   }
-  constructor( private router: Router) { }
+  constructor( private router: Router, private newService: SprintService) { }
+
 
   ngOnInit() {
     this.username = localStorage.getItem('user');
+    this.newService.getSprint();
+    this.subSprint = this.newService.getSprintUpdateListener()
+    .subscribe((sp: Sprint[]) => {
+      this.theSprint = sp;
+    });
+
   }
+
+  onDelete() {
+    this.newService.deleteAllSprint();
+  }
+
 
 }
 
