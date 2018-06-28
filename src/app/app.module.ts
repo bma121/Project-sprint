@@ -21,6 +21,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { SprintSpinnerComponent } from './sprint-spinner/sprint-spinner.component';
 import { MinuteSecondsPipe } from './minute-seconds.pipe';
 import { SprintService } from './sprint.service';
+import { FiltersprintPipe } from './filtersprint.pipe';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SprintService } from './sprint.service';
     SprintComponent,
     HomeComponent,
     SprintSpinnerComponent,
-    MinuteSecondsPipe
+    MinuteSecondsPipe,
+    FiltersprintPipe
   ],
   imports: [
     BrowserModule,

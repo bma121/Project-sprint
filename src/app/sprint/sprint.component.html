@@ -6,7 +6,7 @@
       <tab heading="Pasts Sprint">
 
            <div class="inputSearch">
-              <input type="text" class="form-control" placeholder="Filter by length, status, date or description">
+              <input type="text" class="form-control" placeholder="Filter" [(ngModel)]="term">
             </div>
 
           <table class="table" >
@@ -21,7 +21,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let sp of theSprint">
+                <tr *ngFor="let sp of theSprint | filtersprint:term">
                     <td >{{ sp.length }}</td>
                     <td >{{ sp.status }}</td>
                     <td >{{ sp.createdAt }}</td>
@@ -43,7 +43,7 @@
           <section class="form-light">
 
               <!--Form without header-->
-              <form action="" (submit)="onAddPost(postForm)" #postForm="ngForm">
+              <form action="" (submit)="onAddPost(postForm)" #postForm="ngForm">
 
                   <div class="card-body mx-4">
 
@@ -66,7 +66,7 @@
                           <textarea class="form-control" ngModel #title="ngModel" name="description" required></textarea>
                           <small id="emailHelp" class="form-text text-muted">What will you be doing</small>
                           <div class="form-check my-4">
-                            <input class="form-check-input" type="checkbox" id="defaultCheck12">
+                            <input class="form-check-input" type="checkbox" id="defaultCheck12" name="defaultCheck12" ngModel>
                             <label for="defaultCheck12" class="grey-text">Notification</label>
                           </div>
                       </div>

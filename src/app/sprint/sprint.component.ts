@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 
 
 
+
 @Component({
   selector: 'app-sprint',
   templateUrl: './sprint.component.html',
@@ -16,6 +17,7 @@ import { Subscription } from 'rxjs';
 })
 export class SprintComponent implements OnInit {
   public selectedValue: any = '' ;
+  public term: any = '';
   private subSprint: Subscription;
   theSprint: Sprint[] = [];
   username = '';
@@ -37,22 +39,17 @@ export class SprintComponent implements OnInit {
   }
 
   onAddPost(_form: NgForm) {
-
-    // if  ( _form.invalid) {
-    //   alert('please innput description');
-    //   return;
-    // }
-
-    console.log(this.selectedValue);
-      console.log(_form.value);
       // tslint:disable-next-line:no-shadowed-variable
       const NavigationExtras:  NavigationExtras = {
-      queryParams :  {'description' : _form.value.description , 'length' : _form.value.length },
+      queryParams :  {'description' : _form.value.description , 'length' : _form.value.length,
+      'check': _form.controls['defaultCheck12'].value },
       fragment : 'anchor'
       };
+      console.log(NavigationExtras.queryParams);
      this.router.navigate(['/spinner'] , NavigationExtras);
   }
-  constructor( private router: Router, private newService: SprintService) { }
+  constructor( private router: Router, private newService: SprintService) {
+  }
 
 
   ngOnInit() {

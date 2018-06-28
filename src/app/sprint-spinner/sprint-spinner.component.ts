@@ -39,6 +39,7 @@ export class SprintSpinnerComponent implements OnInit {
     endHours: any = '';
     stopHours: any = '';
     month: any = '';
+    checkBox: boolean;
 
   constructor(private pushNotifications: PushNotificationsService , private routeActive: ActivatedRoute,
     private service: SprintService, private router: Router) {
@@ -69,6 +70,7 @@ export class SprintSpinnerComponent implements OnInit {
        this.routeActive.queryParams.subscribe (params => {
           this.length = params['length'];
           this.desc = params['description'];
+          this.checkBox = params['check'];
 
         });
 
@@ -193,8 +195,11 @@ public timer() {
                   this.timerActive = false;
                   this.endHours = new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
                   this.service.addSprint(this.lengthValue, 'Completed', this.date, this.startHours, this.endHours, this.desc );
-                  this.audio.play();
-                  this.notify();
+
+                  if (this.checkBox) {
+                     this.audio.play();
+                     this.notify();
+                  }
                   this.router.navigate(['/sprint']);
               }
               this.time -= 1;
