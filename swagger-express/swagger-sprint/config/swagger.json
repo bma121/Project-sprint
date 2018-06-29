@@ -1,0 +1,86 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "v1",
+        "title": "Sprint",
+        "description": "A Sprint API based on Swagger an the pomodoro technique and built using Node.js/Angular"
+    },
+    "paths": {
+        "/api/sprint": {
+            "get": {
+                "tags": [
+                    "Sprints"
+                ],
+                "operationId": "sprint_get",
+                "consumes": [],
+                "produces": [
+                    "application/json",
+                    "text/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Sprint"
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/api/sprint/{id}": {
+            "get": {
+                "tags": [
+                    "Sprints"
+                ],
+                "operationId": "sprint_getById",
+                "consumes": [],
+                "produces": [
+                    "application/json",
+                    "text/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Sprint"
+                            }
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        }
+    },
+    "definitions": {
+        "Sprint": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "length": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
