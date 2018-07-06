@@ -1,6 +1,13 @@
 const app = require("./server/app");
 const debug = require("debug")("sprint");
 const http = require("http");
+const logger = require('./server/graylogger');
+
+logger.on('error', function(error){
+  console.error('Error while trying to write to gray:', error);
+});
+
+logger.log("Connected to server");
 
 const normalizePort = val => {
   var port = parseInt(val, 10);
@@ -36,6 +43,8 @@ const onError = error => {
       throw error;
   }
 };
+
+
 
 const onListening = () => {
   const addr = server.address();

@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const pastSprint = require("./models/pastSprint");
+const logger = require('./graylogger');
 
 const app = express();
 
@@ -11,9 +12,11 @@ mongoose
     "mongodb://localhost:27017/sprintDB")
   .then(() => {
     console.log("Connected to database!");
+    logger.log('Database Connected');
   })
   .catch(() => {
     console.log("Connection failed!");
+    logger.log('Connection to Database failed');
   });
 //middleware
 app.use(bodyParser.json());
@@ -46,6 +49,7 @@ app.post("/api/sprint", (req, res, next) => {
       message: "Sprint added successfully",
       sprintId: createdSprint._id
     });
+    logger.log('Sprint added successfully');
   });
 });
 
@@ -55,6 +59,7 @@ app.get("/api/sprint", (req, res, next) => {
       message: "Sprints fetched successfully!",
       sprints: documents
     });
+    logger.log('Sprint fetched successfully');
   });
 });
 
@@ -66,6 +71,7 @@ app.delete("/api/sprint", (req,res ,next ) => {
 
   res.status(200).json({message:"All sprint deleted!!!"});
   });
+  logger.log('Sprint deleted successfully');
 });
 
 module.exports = app;
